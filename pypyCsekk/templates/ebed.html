@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+    <body>
+        <h1>Ebéd</h1>
+        <form method="POST" action="../ebed_load" enctype = "multipart/form-data">
+            <p>Kérem az Excel fájlt:</p>
+            <input type="file" accept=".xls"  name="excel"/>
+            <p>Kérem a PDF fájlt:</p>
+            <input type="file" accept=".pdf"  name="pdf"/>
+            <p>Ha kész indulhat!</p>
+            <input type="submit" value="Feltöltés">
+        </form>
+        <p><a href="./">Vissza</a></p>
+   </body>
+</html>

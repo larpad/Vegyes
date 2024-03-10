@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <style rel="text/css" href="{{ url_for('static', filename = 'client.css') }}"></style>
+        <script type = "text/javascript" src = "{{ url_for('static', filename = 'client.js') }}" ></script>
+
+  </head>
+    <body>
+        <nav>
+            <a href=".">Index</a> |
+            <a href="admin">Adminra!</a>  |
+            <a href="judzsin">Judzsin!</a> |
+            <a href="sz">Számoló</a> |
+            <a href="kimutatas">Kimutatás</a> |
+            <a href="upload">Feltöltés</a> |
+            <a href="dbfile">DB Fájlok</a> |
+            <a href="login">Login</a> |
+            <a href="user" align="right">{% block userneve %}{% endblock %}</a>
+        </nav>
+        <h1>{% block focim %}{% endblock %}</h1>
+        {% block tartalom %}{% endblock %}
+    </body>
+</html>

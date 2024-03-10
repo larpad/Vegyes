@@ -1,0 +1,11 @@
+{% extends "sablon.html" %}
+{% block title %}{{cim}}{% endblock %}
+{% block userneve %}{{userneve}}{% endblock %}
+{% block focim %}{{cim}}{% endblock %}
+{% block tartalom %}
+         <form method=post enctype=multipart/form-data>
+            <input type=file name=file>
+            <input type=submit value=Upload>
+        </form>
+        Shape is: {{ shape }}
+{% endblock %}

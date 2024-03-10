@@ -1,0 +1,25 @@
+{% extends "sablon.html" %}
+{% block title %}Login{% endblock %}
+{% block focim %}Login{% endblock %}
+{% block tartalom %}
+        <h2> Felsorolás</h2>
+        {% for x in range(10) %}
+            <p>{{ x + 1 }}. {{szoveg}}</p>
+        {% endfor %}
+        <h2> Számolás </h2>
+        {% for x in range(10) %}
+            {% if x %2 == 1 %}
+                <p>{{ x + 1 }}. {{szoveg}}</p>
+            {% endif %}
+        {% endfor %}
+
+        <h1> Számolás név szerint </h1>
+        {% for nev in nevek %}
+            <h2> {{ nev }} </h2>
+            {% for x in range(10) %}
+                {% if x %2 == 1 %}
+                    <p>{{ x + 1 }}. {{szoveg}}</p>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+{% endblock %}

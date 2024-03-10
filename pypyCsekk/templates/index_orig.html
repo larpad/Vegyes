@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+    <body onload="sayHello()">
+        <h1>Csekkek</h1>
+        <h2><a href="./ebed">Ebédbefizetés</a></h2>
+        <h2><a href="./osztalypenz">Osztálypénz</a></h2>
+        <h2><a href="./kozoskoltseg">Közösköltség</a></h2>
+        <h2><a href="./takaritas">Takarítási díj kiirása</a></h2>
+         {% for item in p_lista %}
+            <form method="POST" action="../index_load" enctype = "multipart/form-data">
+                <table>
+                    <tr>
+                        <td><input type="text" accept=".pdf"  name="pdf_name" value="{{item}}"/></td>
+                        <td> <input type="file" accept=".xls"  name="excel"/></td>
+                        <td><input type="submit" value="Feltöltés"></td>
+                    </tr>
+                </table>
+            <p></p>
+            </form>
+         {% endfor%}
+    </body>
+</html>
+
+<!--
+<embed src="path_of_your_pdf/your_pdf_file.pdf" type="application/pdf"   height="700px" width="500">
+<embed
+    src="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
+    type="application/pdf"
+    frameBorder="0"
+    scrolling="auto"
+    height="100%"
+    width="100%"
+></embed>
+<iframe
+    src="https://drive.google.com/viewerng/viewer?embedded=true&url=http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&scrollbar=0"
+    frameBorder="0"
+    scrolling="auto"
+    height="100%"
+    width="100%"
+></iframe>
+
+
+<div id="adobe-dc-view"></div>
+<script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+<script type="text/javascript">
+  document.addEventListener("adobe_dc_view_sdk.ready", function(){
+    var adobeDCView = new AdobeDC.View({clientId: "api_key", divId: "adobe-dc-view"});
+    adobeDCView.previewFile({
+      content: { promise: <FILE_PROMISE> }
+      metaData: { fileName: "file_name_to_display" }
+    }, {});
+  });
+</script>
+
+-->

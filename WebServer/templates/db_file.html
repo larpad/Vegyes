@@ -1,0 +1,26 @@
+{% extends "sablon.html" %}
+{% block title %}Adatbázis fájlok{% endblock %}
+{% block focim %}Fájlok{% endblock %}
+{% block tartalom %}
+        <input type = "button" onclick = "sayHello()" value = "Say Hello" />
+
+        <table>
+            {% for file_name in fajlok %}
+                <form id="form_{{ file_name[0] }}" action="login" method="GET" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ file_name[0] }}"/>
+                    <tr>
+                        <td class="fajl" onclick="file_view('{{ file_name[0] }}')">{{ file_name[1] }}</td>
+                        <td> <a href="http://127.0.0.1:5000/dbfile/files/{{ file_name[0] }}"> {{ file_name[1] }} </a> </td>
+                        <td> <input name="action" type="submit" value="delete"></td>
+                        <td  class="fajl" id="td_{{ file_name[0] }}">Hello : {{ file_name[0] }}</td>
+                    </tr>
+                </form>
+            {% endfor %}
+            </table>
+        <BR/>
+         <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
+
+{% endblock %}
