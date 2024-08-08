@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 from gui import MainWindow
-from db_manager import DatabaseManager
+from media.db import DatabaseManager
 
 def main():
     app = QApplication(sys.argv)
