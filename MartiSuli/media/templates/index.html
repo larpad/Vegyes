@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenei Adatbázis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            flex: 1;
+        }
+        header {
+            background: #f4f4f4;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav {
+            background: #333;
+            color: #fff;
+        }
+        nav ul {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .stat-card {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .quick-access-btn {
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #555;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+        #mainContent {
+            padding: 20px;
+        }
+        .statistics {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+        #entityForm {
+            display: none;
+            margin-top: 20px;
+        }
+        #entityForm label {
+            display: block;
+            margin-top: 10px;
+        }
+        #entityForm input, #entityForm textarea {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        #entityForm button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Zenei Adatbázis</h1>
+        <form id="searchForm">
+            <input type="search" id="searchInput" placeholder="Globális keresés">
+            <button type="submit">Keresés</button>
+        </form>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Főoldal</a></li>
+            <li><a href="#szemelyek">Személyek</a></li>
+            <li><a href="#mediak">Médiák</a></li>
+            <li><a href="#eloadasok">Előadások</a></li>
+            <li><a href="#Beallitasok">Beállítások</a></li>
+            <li><a href="#kategoriak">Kategóriák</a></li>
+            <li><a href="#eloadasBlobTipusok">Fájlt</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" id="mainContent">
+        <h2>Üdvözöljük a MartiSuli Adatbázis Kezelőben!</h2>
+        <p>Ez az alkalmazás segít Önnek kezelni a MartiSuli adatbázisát, beleértve a személyeket, médiákat, előadásokat és kategóriákat.</p>
+        <div class="quick-access">
+            <button class="btn quick-access-btn" data-model="szemely">Személyek</button>
+            <button class="btn quick-access-btn" data-model="media">Médiák</button>
+            <button class="btn quick-access-btn" data-model="eloadas">Előadások</button>
+            <button class="btn quick-access-btn" data-model="kategoria">Kategóriák</button>
+        </div>
+        <!-- <div class="statistics">
+            <div class="stat-card">
+                <h3>Személyek</h3>
+                <p id="szemelyCount">Betöltés...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Médiák</h3>
+                <p id="mediaCount">Betöltés...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Előadások</h3>
+                <p id="eloadasCount">Betöltés...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Kategóriák</h3>
+                <p id="kategoriaCount">Betöltés...</p>
+            </div>
+        </div> -->
+        <div id="entityList"></div>
+        <form id="entityForm"></form>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 MartiSuli Adatbázis Kezelő</p>
+        <a href="#">Kapcsolat</a>
+        <span>Verzió 1.0</span>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStatistics();
+            setupNavigation();
+            setupQuickAccess();
+            setupSearch();
+        });
+
+        function loadStatistics() {
+            ['szemely', 'media', 'eloadas', 'kategoria'].forEach(model => {
+                fetch(`/api/${model}/count`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById(`${model}Count`).textContent = data.count;
+                    });
+            });
+        }
+
+        function setupNavigation() {
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loadView(this.getAttribute('href').substring(1));
+                });
+            });
+        }
+
+        function setupQuickAccess() {
+            document.querySelectorAll('.quick-access-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    loadView(this.dataset.model);
+                });
+            });
+        }
+
+        function setupSearch() {
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchTerm = document.getElementById('searchInput').value;
+                fetch('/api/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ search_term: searchTerm })
+                })
+                .then(response => response.json())
+                .then(displayResults);
+            });
+        }
+
+        function loadView(view) {
+            fetch(`/api/${view}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayResults(data);
+                    setupEntityForm(view);
+                });
+        }
+
+        function displayResults(data) {
+            let content = `<h2>${data.length > 0 ? capitalizeFirstLetter(data[0].type) : 'Eredmények'}</h2>`;
+            content += '<button onclick="showEntityForm()">Új hozzáadása</button>';
+            if (data.length > 0) {
+                content += '<table><tr>';
+                for (let key in data[0]) {
+                    if (key !== 'type') {
+                        content += `<th>${key}</th>`;
+                    }
+                }
+                content += '<th>Műveletek</th></tr>';
+                data.forEach(item => {
+                    content += '<tr>';
+                    for (let key in item) {
+                        if (key !== 'type') {
+                            content += `<td>${item[key]}</td>`;
+                        }
+                    }
+                    content += `<td>
+                        <button onclick="editEntity('${item.type}', ${item.id})">Szerkesztés</button>
+                        <button onclick="deleteEntity('${item.type}', ${item.id})">Törlés</button>
+                    </td>`;
+                    content += '</tr>';
+                });
+                content += '</table>';
+            } else {
+                content += '<p>Nincs találat.</p>';
+            }
+            document.getElementById('entityList').innerHTML = content;
+        }
+
+        function setupEntityForm(entityType) {
+            const form = document.getElementById('entityForm');
+            form.innerHTML = '';
+            form.dataset.entityType = entityType;
+
+            const fields = getEntityFields(entityType);
+            fields.forEach(field => {
+                const label = document.createElement('label');
+                label.textContent = capitalizeFirstLetter(field);
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = field;
+                input.id = field;
+                form.appendChild(label);
+                form.appendChild(input);
+            });
+
+            const submitButton = document.createElement('button');
+            submitButton.textContent = 'Mentés';
+            submitButton.type = 'submit';
+            form.appendChild(submitButton);
+
+            form.addEventListener('submit', handleFormSubmit);
+        }
+
+        function getEntityFields(entityType) {
+            switch(entityType) {
+                case 'szemely':
+                    return ['nev', 'datum_szuletes', 'datum_meghalt', 'leiras', 'megjegyzes'];
+                case 'media':
+                    return ['cim', 'dalszoveg', 'datum_keletkezes', 'leiras', 'megjegyzes', 'id_zeneszerzo'];
+                case 'eloadas':
+                    return ['id_media', 'leiras', 'megjegyzes'];
+                case 'kategoria':
+                    return ['megnevezes', 'leiras', 'megjegyzes'];
+                default:
+                    return [];
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const entityType = form.dataset.entityType;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch(`/api/${entityType}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(() => {
+                loadView(entityType);
+                form.style.display = 'none';
+            });
+        }
+
+        function showEntityForm() {
+            document.getElementById('entityForm').style.display = 'block';
+        }
+
+        function editEntity(type, id) {
+            fetch(`/api/${type}/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const form = document.getElementById('entityForm');
+                    form.style.display = 'block';
+                    for (let key in data) {
+                        if (form.elements[key]) {
+                            form.elements[key].value = data[key];
+                        }
+                    }
+                    form.dataset.id = id;
+                });
+        }
+
+        function deleteEntity(type, id) {
+            if (confirm('Biztosan törölni szeretné ezt az elemet?')) {
+                fetch(`/api/${type}/${id}`, { method: 'DELETE' })
+                    .then(() => loadView(type));
+            }
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+    </script>
+</body>
+</html>

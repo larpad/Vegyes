@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MartiSuli Adatbázis Kezelő</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-nav {
+            flex-direction: row;
+        }
+        .navbar-nav .nav-item {
+            margin-right: 15px;
+        }
+        .stat-card {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .quick-access-btn {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">MartiSuli Adatbázis Kezelő</a>
+                <div class="navbar-nav ml-auto">
+                    <input class="form-control mr-sm-2" type="search" v-model="searchQuery" placeholder="Globális keresés" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" @click="globalSearch">Keresés</button>
+                    <button class="btn btn-outline-primary ml-2" @click="toggleLogin">{{ '{{ isLoggedIn ? "Kijelentkezés" : "Bejelentkezés" }}' }}</button>
+                </div>
+            </nav>
+        </header>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="#" @click="setActiveView('home')">Főoldal</a>
+                <a class="nav-item nav-link" href="#" @click="setActiveView('szemelyek')">Személyek</a>
+                <a class="nav-item nav-link" href="#" @click="setActiveView('mediak')">Médiák</a>
+                <a class="nav-item nav-link" href="#" @click="setActiveView('eloadasok')">Előadások</a>
+                <a class="nav-item nav-link" href="#" @click="setActiveView('kategoriak')">Kategóriák</a>
+                <a class="nav-item nav-link" href="#" @click="setActiveView('eloadasBlobok')">Előadás Blobok</a>
+                <a class="nav-item nav-link" href="#" @click="setActiveView('eloadasBlobTipusok')">Előadás Blob Típusok</a>
+                <a class="nav-item nav-link" href="#" @click="setActiveView('reports')">Riportok és statisztikák</a>
+                <a class="nav-item nav-link" href="#" @click="setActiveView('importExport')">Adatimport/export</a>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <component :is="activeView"></component>
+        </div>
+
+        <footer class="bg-light text-center text-lg-start mt-4">
+            <div class="container p-4">
+                <p>&copy; 2023 MartiSuli Adatbázis Kezelő</p>
+                <a href="#">Kapcsolat</a>
+                <span>Verzió 1.0</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        Vue.component('home', {
+            template: `
+                <div>
+                    <div class="welcome-message">
+                        <h2>Üdvözöljük a MartiSuli Adatbázis Kezelőben!</h2>
+                        <p>Ez az alkalmazás segít Önnek kezelni a MartiSuli adatbázisát, beleértve a személyeket, médiákat, előadásokat és kategóriákat.</p>
+                    </div>
+
+                    <div class="quick-access row">
+                        <div class="col-md-3">
+                            <button class="btn btn-primary btn-block quick-access-btn" @click="$root.setActiveView('szemelyek')">Személyek</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary btn-block quick-access-btn" @click="$root.setActiveView('mediak')">Médiák</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary btn-block quick-access-btn" @click="$root.setActiveView('eloadasok')">Előadások</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary btn-block quick-access-btn" @click="$root.setActiveView('kategoriak')">Kategóriák</button>
+                        </div>
+                    </div>
+
+                    <div class="statistics row">
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h3>Személyek</h3>
+                                <p>{{ '{{ szemelyCount }}' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h3>Médiák</h3>
+                                <p>{{ '{{ mediaCount }}' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h3>Előadások</h3>
+                                <p>{{ '{{ eloadasCount }}' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h3>Kategóriák</h3>
+                                <p>{{ '{{ kategoriaCount }}' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            data() {
+                return {
+                    szemelyCount: 0,
+                    mediaCount: 0,
+                    eloadasCount: 0,
+                    kategoriaCount: 0
+                }
+            },
+            mounted() {
+                // Itt kell majd lekérni az adatokat az API-ról
+                this.szemelyCount = 100;
+                this.mediaCount = 500;
+                this.eloadasCount = 200;
+                this.kategoriaCount = 50;
+            }
+        });
+
+        Vue.component('szemelyek', {
+            template: `
+                <div>
+                    <h2>Személyek</h2>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button class="btn btn-primary" @click="showAddModal">Új személy hozzáadása</button>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="searchQuery" placeholder="Keresés...">
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Név</th>
+                                <th>Születési dátum</th>
+                                <th>Halálozási dátum</th>
+                                <th>Műveletek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="szemely in filteredSzemelyek" :key="szemely.id">
+                                <td>{{ '{{ szemely.nev }}' }}</td>
+                                <td>{{ '{{ szemely.datum_szuletes }}' }}</td>
+                                <td>{{ '{{ szemely.datum_meghalt }}' }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" @click="showEditModal(szemely)">Szerkesztés</button>
+                                    <button class="btn btn-sm btn-danger" @click="deleteSzemely(szemely)">Törlés</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `,
+            data() {
+                return {
+                    szemelyek: [],
+                    searchQuery: ''
+                }
+            },
+            computed: {
+                filteredSzemelyek() {
+                    return this.szemelyek.filter(szemely => 
+                        szemely.nev.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    );
+                }
+            },
+            methods: {
+                showAddModal() {
+                    // Implement add modal logic
+                },
+                showEditModal(szemely) {
+                    // Implement edit modal logic
+                },
+                deleteSzemely(szemely) {
+                    // Implement delete logic
+                }
+            },
+            mounted() {
+                // Fetch szemelyek from API
+                this.szemelyek = [
+                    { id: 1, nev: 'Teszt Elek', datum_szuletes: '1990-01-01', datum_meghalt: null },
+                    { id: 2, nev: 'Minta Áron', datum_szuletes: '1985-05-15', datum_meghalt: '2022-12-31' },
+                    { id: 3, nev: 'Nagy Béla', datum_szuletes: '1978-03-22', datum_meghalt: null },
+                    { id: 4, nev: 'Kiss Katalin', datum_szuletes: '1992-11-08', datum_meghalt: null },
+                    { id: 5, nev: 'Szabó Gábor', datum_szuletes: '1983-07-19', datum_meghalt: '2021-09-30' },
+                    { id: 6, nev: 'Kovács Éva', datum_szuletes: '1995-02-14', datum_meghalt: null },
+                    { id: 7, nev: 'Tóth Zoltán', datum_szuletes: '1970-09-05', datum_meghalt: null },
+                    { id: 8, nev: 'Horváth Anna', datum_szuletes: '1988-12-25', datum_meghalt: null },
+                    { id: 9, nev: 'Varga Péter', datum_szuletes: '1976-06-30', datum_meghalt: '2020-03-15' },
+                    { id: 10, nev: 'Molnár Eszter', datum_szuletes: '1993-08-17', datum_meghalt: null },
+                    { id: 11, nev: 'Balogh Tamás', datum_szuletes: '1981-04-11', datum_meghalt: null },
+                    { id: 12, nev: 'Fekete Zsófia', datum_szuletes: '1997-10-03', datum_meghalt: null },
+                    { id: 13, nev: 'Papp László', datum_szuletes: '1972-01-28', datum_meghalt: '2019-11-20' },
+                    { id: 14, nev: 'Szűcs Mária', datum_szuletes: '1989-07-07', datum_meghalt: null },
+                    { id: 15, nev: 'Takács István', datum_szuletes: '1986-03-09', datum_meghalt: null },
+                    { id: 16, nev: 'Németh Júlia', datum_szuletes: '1994-05-21', datum_meghalt: null },
+                    { id: 17, nev: 'Farkas Attila', datum_szuletes: '1979-11-13', datum_meghalt: null },
+                    { id: 18, nev: 'Simon Adrienn', datum_szuletes: '1991-08-29', datum_meghalt: null },
+                    { id: 19, nev: 'Rácz Gergely', datum_szuletes: '1975-02-06', datum_meghalt: '2023-01-18' },
+                    { id: 20, nev: 'Török Viktória', datum_szuletes: '1987-12-12', datum_meghalt: null }
+                ];
+            }
+        });
+
+        Vue.component('mediak', {
+            template: `
+                <div>
+                    <h2>Médiák</h2>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button class="btn btn-primary" @click="showAddModal">Új média hozzáadása</button>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="searchQuery" placeholder="Keresés...">
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cím</th>
+                                <th>Keletkezés dátuma</th>
+                                <th>Zeneszerző</th>
+                                <th>Műveletek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="media in filteredMediak" :key="media.id">
+                                <td>{{ '{{ media.cim }}' }}</td>
+                                <td>{{ '{{ media.datum_keletkezes }}' }}</td>
+                                <td>{{ '{{ media.zeneszerzo }}' }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" @click="showEditModal(media)">Szerkesztés</button>
+                                    <button class="btn btn-sm btn-danger" @click="deleteMedia(media)">Törlés</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `,
+            data() {
+                return {
+                    mediak: [],
+                    searchQuery: ''
+                }
+            },
+            computed: {
+                filteredMediak() {
+                    return this.mediak.filter(media => 
+                        media.cim.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    );
+                }
+            },
+            methods: {
+                showAddModal() {
+                    // Implement add modal logic
+                },
+                showEditModal(media) {
+                    // Implement edit modal logic
+                },
+                deleteMedia(media) {
+                    // Implement delete logic
+                }
+            },
+            mounted() {
+                // Fetch mediak from API
+            }
+        });
+
+        Vue.component('eloadasok', {
+            template: `
+                <div>
+                    <h2>Előadások</h2>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button class="btn btn-primary" @click="showAddModal">Új előadás hozzáadása</button>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="searchQuery" placeholder="Keresés...">
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Média</th>
+                                <th>Előadók</th>
+                                <th>Műveletek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="eloadas in filteredEloadasok" :key="eloadas.id">
+                                <td>{{ '{{ eloadas.media }}' }}</td>
+                                <td>{{ '{{ eloadas.eloadok.join(", ") }}' }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" @click="showEditModal(eloadas)">Szerkesztés</button>
+                                    <button class="btn btn-sm btn-danger" @click="deleteEloadas(eloadas)">Törlés</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `,
+            data() {
+                return {
+                    eloadasok: [],
+                    searchQuery: ''
+                }
+            },
+            computed: {
+                filteredEloadasok() {
+                    return this.eloadasok.filter(eloadas => 
+                        eloadas.media.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        eloadas.eloadok.some(eloado => eloado.toLowerCase().includes(this.searchQuery.toLowerCase()))
+                    );
+                }
+            },
+            methods: {
+                showAddModal() {
+                    // Implement add modal logic
+                },
+                showEditModal(eloadas) {
+                    // Implement edit modal logic
+                },
+                deleteEloadas(eloadas) {
+                    // Implement delete logic
+                }
+            },
+            mounted() {
+                // Fetch eloadasok from API
+            }
+        });
+
+        Vue.component('kategoriak', {
+            template: `
+                <div>
+                    <h2>Kategóriák</h2>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button class="btn btn-primary" @click="showAddModal">Új kategória hozzáadása</button>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="searchQuery" placeholder="Keresés...">
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Megnevezés</th>
+                                <th>Leírás</th>
+                                <th>Műveletek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="kategoria in filteredKategoriak" :key="kategoria.id">
+                                <td>{{ '{{ kategoria.megnevezes }}' }}</td>
+                                <td>{{ '{{ kategoria.leiras }}' }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" @click="showEditModal(kategoria)">Szerkesztés</button>
+                                    <button class="btn btn-sm btn-danger" @click="deleteKategoria(kategoria)">Törlés</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `,
+            data() {
+                return {
+                    kategoriak: [],
+                    searchQuery: ''
+                }
+            },
+            computed: {
+                filteredKategoriak() {
+                    return this.kategoriak.filter(kategoria => 
+            template: '<div><h2>Kategóriák</h2><p>Itt jelennek meg a kategóriák kezelésére szolgáló elemek.</p></div>'
+        });
+
+        Vue.component('eloadasBlobok', {
+            template: '<div><h2>Előadás Blobok</h2><p>Itt jelennek meg az előadás blobok kezelésére szolgáló elemek.</p></div>'
+        });
+
+        Vue.component('eloadasBlobTipusok', {
+            template: '<div><h2>Előadás Blob Típusok</h2><p>Itt jelennek meg az előadás blob típusok kezelésére szolgáló elemek.</p></div>'
+        });
+
+        Vue.component('reports', {
+            template: '<div><h2>Riportok és statisztikák</h2><p>Itt jelennek meg a riportok és statisztikák.</p></div>'
+        });
+
+        Vue.component('importExport', {
+            template: '<div><h2>Adatimport/export</h2><p>Itt jelennek meg az adatimport és export funkciók.</p></div>'
+        });
+
+        new Vue({
+            el: '#app',
+            data: {
+                activeView: 'home',
+                searchQuery: '',
+                isLoggedIn: false
+            },
+            methods: {
+                setActiveView(view) {
+                    this.activeView = view;
+                },
+                globalSearch() {
+                    console.log('Keresés:', this.searchQuery);
+                    // Itt kell majd implementálni a keresési logikát
+                },
+                toggleLogin() {
+                    this.isLoggedIn = !this.isLoggedIn;
+                    // Itt kell majd implementálni a be- és kijelentkezési logikát
+                }
+            }
+        });
+    </script>
+</body>
+</html>

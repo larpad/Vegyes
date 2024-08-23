@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MartiSuli Media Manager</title>
+    <style>
+        /* ... (existing styles) ... */
+        .details-view {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .related-records {
+            margin-top: 20px;
+        }
+        .action-buttons {
+            margin-top: 20px;
+        }
+        .action-buttons button {
+            margin-right: 10px;
+        }
+        .menu-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .menu-list li {
+            margin-bottom: 10px;
+        }
+        .welcome-message {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .quick-access {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        .quick-access button {
+            padding: 10px 20px;
+            font-size: 1.1em;
+        }
+        .statistics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-card h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>MartiSuli Media Manager</h1>
+            <input type="text" id="globalSearch" placeholder="Global search...">
+            <button id="loginButton">Login</button>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a id="homeLink">Home</a></li>
+                <li><a id="szemelyekLink">Személyek</a></li>
+                <li><a id="mediakLink">Médiák</a></li>
+                <li><a id="eloadasokLink">Előadások</a></li>
+                <li><a id="kategoriakLink">Kategóriák</a></li>
+                <li><a id="eloadasBlobokLink">Előadás Blobok</a></li>
+                <li><a id="eloadasBlobTipusokLink">Előadás Blob Típusok</a></li>
+                <li><a id="reportsLink">Riportok és statisztikák</a></li>
+                <li><a id="importExportLink">Adatimport/export</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container main-content" id="content">
+        <!-- Dynamic content will be loaded here -->
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 MartiSuli Media Manager</p>
+            <a href="#">Contact</a>
+            <span>Version 1.0</span>
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = '/api';
+        const content = document.getElementById('content');
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modalContent');
+        const closeModal = document.getElementsByClassName('close')[0];
+
+        const models = {
+            'Szemely': ['nev', 'datum_szuletes', 'datum_meghalt', 'leiras', 'megjegyzes'],
+            'Media': ['cim', 'dalszoveg', 'datum_keletkezes', 'leiras', 'megjegyzes', 'id_zeneszerzo'],
+            'Eloadas': ['id_media', 'leiras', 'megjegyzes'],
+            'Kategoria': ['megnevezes', 'leiras', 'megjegyzes'],
+            'Eloadas_Blob': ['id_eloadas', 'id_eloadas_blob_tipus', 'blob', 'leiras', 'megjegyzes'],
+            'Eloadas_Blob_Tipus': ['megnevezes', 'kiterjesztes', 'megjegyzes']
+        };
+
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        async function fetchData(url) {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        }
+
+        async function sendData(url, method, data) {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return method === 'DELETE' ? response.status === 204 : response.json();
+        }
+
+        function displayTable(items, modelName) {
+            if (items.length === 0) {
+                content.innerHTML = `<p>No ${modelName} found.</p>`;
+                return;
+            }
+
+            let table = `
+                <h2>${modelName}</h2>
+                <div class="action-buttons">
+                    <button onclick="showAddForm('${modelName}')">Add New ${modelName}</button>
+                    <button onclick="showSearchForm('${modelName}')">Search ${modelName}</button>
+                </div>
+                <table>
+                    <tr>
+            `;
+            
+            for (let key in items[0]) {
+                table += `<th>${key}</th>`;
+            }
+            table += `<th>Actions</th></tr>`;
+
+            items.forEach(item => {
+                table += `<tr>`;
+                for (let key in item) {
+                    table += `<td>${item[key]}</td>`;
+                }
+                table += `
+                    <td>
+                        <button onclick="showEditForm('${modelName}', ${item.id})">Edit</button>
+                        <button onclick="deleteItem('${modelName}', ${item.id})">Delete</button>
+                        <button onclick="viewDetails('${modelName}', ${item.id})">View Details</button>
+                    </td>
+                </tr>`;
+            });
+
+            table += `</table>`;
+            content.innerHTML = table;
+        }
+
+        async function loadItems(modelName) {
+            try {
+                const items = await fetchData(`${API_URL}/${modelName}`);
+                displayTable(items, modelName);
+            } catch (error) {
+                console.error('Error:', error);
+                content.innerHTML = `<p>Error loading ${modelName}: ${error.message}</p>`;
+            }
+        }
+
+        function showAddForm(modelName) {
+            let form = `
+                <h2>Add New ${modelName}</h2>
+                <form id="addForm">
+            `;
+            
+            models[modelName].forEach(field => {
+                const inputType = field.includes('datum') ? 'date' : 'text';
+                form += `
+                    <label for="${field}">${field}:</label>
+                    <input type="${inputType}" id="${field}" name="${field}" required>
+                `;
+            });
+            
+            form += `
+                    <button type="submit">Add</button>
+                </form>
+            `;
+            
+            modalContent.innerHTML = form;
+            modal.style.display = "block";
+
+            document.getElementById('addForm').onsubmit = async function(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData.entries());
+                try {
+                    await sendData(`${API_URL}/${modelName}`, 'POST', data);
+                    modal.style.display = "none";
+                    loadItems(modelName);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`Error adding ${modelName}: ${error.message}`);
+                }
+            };
+        }
+
+        async function showEditForm(modelName, id) {
+            try {
+                const item = await fetchData(`${API_URL}/${modelName}/${id}`);
+                let form = `
+                    <h2>Edit ${modelName}</h2>
+                    <form id="editForm">
+                `;
+                
+                models[modelName].forEach(field => {
+                    const inputType = field.includes('datum') ? 'date' : 'text';
+                    form += `
+                        <label for="${field}">${field}:</label>
+                        <input type="${inputType}" id="${field}" name="${field}" value="${item[field] || ''}" required>
+                    `;
+                });
+                
+                form += `
+                        <button type="submit">Update</button>
+                    </form>
+                `;
+                
+                modalContent.innerHTML = form;
+                modal.style.display = "block";
+
+                document.getElementById('editForm').onsubmit = async function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(e.target);
+                    const data = Object.fromEntries(formData.entries());
+                    try {
+                        await sendData(`${API_URL}/${modelName}/${id}`, 'PUT', data);
+                        modal.style.display = "none";
+                        loadItems(modelName);
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert(`Error updating ${modelName}: ${error.message}`);
+                    }
+                };
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error loading ${modelName} for editing: ${error.message}`);
+            }
+        }
+
+        async function deleteItem(modelName, id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                try {
+                    await sendData(`${API_URL}/${modelName}/${id}`, 'DELETE');
+                    loadItems(modelName);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`Error deleting ${modelName}: ${error.message}`);
+                }
+            }
+        }
+
+        function showSearchForm(modelName) {
+            let form = `
+                <h2>Search ${modelName}</h2>
+                <form id="searchForm">
+                    <input type="text" id="searchInput" name="searchTerm" placeholder="Enter search term...">
+                    <button type="submit">Search</button>
+                </form>
+            `;
+            
+            modalContent.innerHTML = form;
+            modal.style.display = "block";
+
+            document.getElementById('searchForm').onsubmit = async function(e) {
+                e.preventDefault();
+                const searchTerm = document.getElementById('searchInput').value;
+                try {
+                    const results = await sendData(`${API_URL}/search`, 'POST', { model: modelName, search_term: searchTerm });
+                    modal.style.display = "none";
+                    displayTable(results, modelName);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`Error searching ${modelName}: ${error.message}`);
+                }
+            };
+        }
+
+        async function viewDetails(modelName, id) {
+            try {
+                const item = await fetchData(`${API_URL}/${modelName}/${id}`);
+                let detailsHtml = `<h2>${modelName} Details</h2>`;
+                for (let key in item) {
+                    detailsHtml += `<p><strong>${key}:</strong> ${item[key]}</p>`;
+                }
+                
+                detailsHtml += `
+                    <div class="related-records">
+                        <h3>Related Records</h3>
+                        <button onclick="viewRelatedRecords('${modelName}', ${id})">View Related Records</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button onclick="showAssociateForm('${modelName}', ${id})">Associate Records</button>
+                        <button onclick="loadItems('${modelName}')">Back to List</button>
+                    </div>
+                `;
+
+                content.innerHTML = detailsHtml;
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error loading ${modelName} details: ${error.message}`);
+            }
+        }
+
+        async function viewRelatedRecords(modelName, id) {
+            try {
+                const relatedRecords = await fetchData(`${API_URL}/${modelName}/${id}/related`);
+                let relatedHtml = `<h3>Related Records for ${modelName} (ID: ${id})</h3>`;
+                
+                for (let relatedModel in relatedRecords) {
+                    relatedHtml += `<h4>${relatedModel}</h4>`;
+                    if (relatedRecords[relatedModel].length > 0) {
+                        relatedHtml += `<ul>`;
+                        relatedRecords[relatedModel].forEach(record => {
+                            relatedHtml += `<li>${JSON.stringify(record)}</li>`;
+                        });
+                        relatedHtml += `</ul>`;
+                    } else {
+                        relatedHtml += `<p>No related ${relatedModel} found.</p>`;
+                    }
+                }
+
+                relatedHtml += `<button onclick="viewDetails('${modelName}', ${id})">Back to Details</button>`;
+                content.innerHTML = relatedHtml;
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error loading related records: ${error.message}`);
+            }
+        }
+
+        function showAssociateForm(modelName, id) {
+            let form = `
+                <h2>Associate ${modelName}</h2>
+                <form id="associateForm">
+                    <select id="relatedModel" name="relatedModel">
+                        <option value="Szemely">Szemely</option>
+                        <option value="Media">Media</option>
+                        <option value="Eloadas">Eloadas</option>
+                        <option value="Kategoria">Kategoria</option>
+                        <option value="Eloadas_Blob">Eloadas_Blob</option>
+                        <option value="Eloadas_Blob_Tipus">Eloadas_Blob_Tipus</option>
+                    </select>
+                    <input type="number" id="relatedId" name="relatedId" placeholder="Related ID" required>
+                    <button type="submit">Associate</button>
+                </form>
+            `;
+            
+            modalContent.innerHTML = form;
+            modal.style.display = "block";
+
+            document.getElementById('associateForm').onsubmit = async function(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData.entries());
+                try {
+                    await sendData(`${API_URL}/${modelName}/${id}/associate`, 'POST', data);
+                    modal.style.display = "none";
+                    viewDetails(modelName, id);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`Error associating records: ${error.message}`);
+                }
+            };
+        }
+
+        async function showHomePage() {
+            try {
+                const stats = await fetchData(`${API_URL}/statistics`);
+                let homeContent = `
+                    <div class="welcome-message">
+                        <h2>Welcome to MartiSuli Media Manager</h2>
+                        <p>This application helps you manage and organize media content for MartiSuli.</p>
+                    </div>
+                    <div class="quick-access">
+        function showHomePage() {
+            content.innerHTML = "";
+        }
+
+        document.getElementById('homeLink').onclick = showHomePage;
+
+        document.getElementById('szemelyekLink').onclick = function() {
+            loadItems('Szemely');
+        };
+
+        document.getElementById('mediakLink').onclick = function() {
+            loadItems('Media');
+        };
+
+        document.getElementById('eloadasokLink').onclick = function() {
+            loadItems('Eloadas');
+        };
+
+        document.getElementById('kategoriakLink').onclick = function() {
+            loadItems('Kategoria');
+        };
+
+        // Initial load
+        document.getElementById('homeLink').click();
+    </script>
+</body>
+</html>
