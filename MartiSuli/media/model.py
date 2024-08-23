@@ -63,4 +63,28 @@ class Eloadas_Blob_Tipus(Base):
     megjegyzes = Column(Text)
 
 
-# További modell osztályok...
+class Hangszer(Base):
+    __tablename__ = 'HANGSZER'
+    id = Column(Integer, primary_key=True)
+    nev = Column(String(100), nullable=False)
+    leiras = Column(Text)
+    megjegyzes = Column(Text)
+
+class EloadasHangszer(Base):
+    __tablename__ = 'ELOADAS_HANGSZER'
+    eloadas_id = Column(Integer, ForeignKey('eloadas.id'), primary_key=True)
+    hangszer_id = Column(Integer, ForeignKey('hangszer.id'), primary_key=True)
+    szemely_id = Column(Integer, ForeignKey('szemely.id'))
+    megjegyzes = Column(Text)
+
+class Stilus(Base):
+    __tablename__ = 'STILUS'
+    id = Column(Integer, primary_key=True)
+    nev = Column(String(100), nullable=False)
+    leiras = Column(Text)
+
+class MediaStilus(Base):
+    __tablename__ = 'MEDIA_STILUS'
+    media_id = Column(Integer, ForeignKey('media.id'), primary_key=True)
+    stilus_id = Column(Integer, ForeignKey('stilus.id'), primary_key=True)
+    megjegyzes = Column(Text)
