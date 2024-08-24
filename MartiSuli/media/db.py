@@ -17,7 +17,8 @@ class DatabaseManager:
         self.Session = sessionmaker(bind=self.engine)
         
         if create_if_not_exists:
-            self.initialize_test_data()
+            # self.initialize_test_data()
+            pass
 
     def get_session(self):
         return self.Session()

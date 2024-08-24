@@ -113,6 +113,14 @@
         #entityForm button {
             margin-top: 10px;
         }
+        .entity-container {
+            display: flex;
+            width: 100%;
+        }
+        #entityList, #entityForm {
+            flex: 1;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -163,8 +171,10 @@
                 <p id="kategoriaCount">Betöltés...</p>
             </div>
         </div> -->
-        <div id="entityList"></div>
-        <form id="entityForm"></form>
+        <div class="entity-container">
+            <div id="entityList"></div>
+            <form id="entityForm"></form>
+        </div>
     </div>
 
     <footer>

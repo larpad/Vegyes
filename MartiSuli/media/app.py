@@ -27,7 +27,7 @@ def api_handler(model_name, id=None):
             return jsonify(item.to_dict() if item else {})
         else:
             items = db_manager.get_all(model)
-            return jsonify([{**item.to_dict(), "type": model_name} for item in items])
+            return jsonify([{**item.to_dict_list(), "type": model_name} for item in items])
 
     elif request.method == 'POST':
         data = request.json
