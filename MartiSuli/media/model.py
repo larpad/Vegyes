@@ -237,9 +237,9 @@ class Hangszer(Base):
 
 class EloadasHangszer(Base):
     __tablename__ = 'ELOADAS_HANGSZER'
-    eloadas_id = Column(Integer, ForeignKey('eloadas.id'), primary_key=True)
-    hangszer_id = Column(Integer, ForeignKey('hangszer.id'), primary_key=True)
-    szemely_id = Column(Integer, ForeignKey('szemely.id'))
+    eloadas_id = Column(Integer, ForeignKey('ELOADAS.id'), primary_key=True)
+    hangszer_id = Column(Integer, ForeignKey('HANGSZER.id'), primary_key=True)
+    # szemely_id = Column(Integer, ForeignKey('szemely.id'))
     megjegyzes = Column(Text)
 
 class Stilus(Base):
@@ -250,8 +250,8 @@ class Stilus(Base):
 
 class MediaStilus(Base):
     __tablename__ = 'MEDIA_STILUS'
-    media_id = Column(Integer, ForeignKey('media.id'), primary_key=True)
-    stilus_id = Column(Integer, ForeignKey('stilus.id'), primary_key=True)
+    media_id = Column(Integer, ForeignKey('MEDIA.id'), primary_key=True)
+    stilus_id = Column(Integer, ForeignKey('STILUS.id'), primary_key=True)
     megjegyzes = Column(Text)
 
     def to_dict(self):
