@@ -22,11 +22,10 @@ def api_handler(model_name, id=None):
         return jsonify({"error": "Invalid model name"}), 400
 
     if request.method == 'GET':
+        items = db_manager.select(model, id)
         if id:
-            item = db_manager.get_by_id(model, id)
-            return jsonify(item.to_dict() if item else {})
+            return jsonify(items.to_dict() if items else {})
         else:
-            items = db_manager.get_all(model)
             return jsonify([{**item.to_dict_list(), "type": model_name} for item in items])
 
     elif request.method == 'POST':
@@ -56,11 +55,7 @@ def api_handler(model_name, id=None):
 def search():
     data = request.json
     search_term = data.get('search_term')
-    results = []
-    for model_name in ['szemely', 'media', 'eloadas', 'kategoria']:
-        model = globals().get(model_name.capitalize())
-        model_results = db_manager.search(model, search_term)
-        results.extend([{**item.to_dict(), "type": model_name} for item in model_results])
+    results = db_manager.select(None, None,  search_term)
     return jsonify(results)
 
 @app.route('/api/<string:model_name>/count', methods=['GET'])
