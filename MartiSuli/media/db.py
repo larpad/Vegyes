@@ -56,19 +56,6 @@ class DatabaseManager:
                                    ])
                 return results
 
-
-
-            # elif search_term:
-            #     if hasattr(model, 'nev'):
-            #         query = query.filter(model.nev.ilike(f'%{search_term}%'))
-            #     elif hasattr(model, 'cim'):
-            #         query = query.filter(model.cim.ilike(f'%{search_term}%'))
-            #     elif hasattr(model, 'megnevezes'):
-            #         query = query.filter(model.megnevezes.ilike(f'%{search_term}%'))
-
-            #     else: # If the model doesn't have any of these attributes, return an empty list
-            #         return []
-            #     return query.all()
             
             else:
                 return query.all()

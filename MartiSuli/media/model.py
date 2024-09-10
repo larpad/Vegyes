@@ -8,7 +8,7 @@ class Szemely(Base):
 
     id = Column(Integer, primary_key=True)
     nev = Column(String(100), nullable=False, unique=False)
-    datum_szuletes = Column(Date)
+    datum_szuletes = Column(Date, info={'label': 'Születési dátum'})
     datum_meghalt = Column(Date)
     leiras = Column(Text)
     megjegyzes = Column(Text)
