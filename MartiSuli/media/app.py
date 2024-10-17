@@ -56,11 +56,7 @@ def api_handler(model_name, id=None):
 def search():
     data = request.json
     search_term = data.get('search_term')
-    results = []
-    for model_name in ['szemely', 'media', 'eloadas', 'kategoria']:
-        model = globals().get(model_name.capitalize())
-        model_results = db_manager.search(model, search_term)
-        results.extend([{**item.to_dict(), "type": model_name} for item in model_results])
+    results = db_manager.search(search_term)
     return jsonify(results)
 
 @app.route('/api/<string:model_name>/count', methods=['GET'])

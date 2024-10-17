@@ -64,7 +64,7 @@ class DatabaseManager:
             session.close()
 
 
-    def search(self, model, search_term):
+    def search_in_table(self, model, search_term):
         session = self.get_session()
         try:
             query = session.query(model)
@@ -77,6 +77,14 @@ class DatabaseManager:
             return query.all()
         finally:
             session.close()
+    def search(self, search_term):
+        results = []
+        for model_name in ['szemely', 'media', 'eloadas', 'kategoria']:
+            model = globals().get(model_name.capitalize())
+            model_results = self.search_in_table(model, search_term)
+            results.extend([{**item.to_dict(), "type": model_name} for item in model_results])
+
+        return results
 
 # ------------------------------------------------------------------------------------------
 
