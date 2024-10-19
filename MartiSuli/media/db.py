@@ -24,46 +24,39 @@ class DatabaseManager:
         return self.Session()
 # ------------------------------------------------------------------------------------------
 
-    def select(self, model, id = None, search_term = None):
+    def select(self, model, id=None, search_term=None):
         session = self.get_session()
-        json = []
         try:
             query = session.query(model)
             if id:
-                query = query.filter(model.id == id)
+                return query.filter(model.id == id).first()
+            
+            elif search_term:
+                results = []
+                for model_name in ['szemely', 'media', 'eloadas', 'kategoria']:
+                    model = globals().get(model_name.capitalize())
+                    query = session.query(model)
                 
-            elif list:
-                query = query.with_entities(*[c for c in model.__table__.columns if c.name not in ['leiras', 'megjegyzes']])
-            else:
-                query = query.with_entities(*[c for c in model.__table__.columns if c.name not in ['leiras', 'megjegyzes']])
-            return query.all()
-            for model_name in ['szemely', 'media', 'eloadas', 'kategoria']:
-                model = globals().get(model_name.capitalize())
-                model_results = db_manager.search(model, search_term)
-                results.extend([{**item.to_dict(), "type": model_name} for item in model_results])
-            return jsonify(results)
-        
-        finally:
-            session.close()
+                    if hasattr(model, 'nev'):
+                        query = query.filter(model.nev.ilike(f'%{search_term}%'))
+                    elif hasattr(model, 'cim'):
+                        query = query.filter(model.cim.ilike(f'%{search_term}%'))
+                    elif hasattr(model, 'megnevezes'):
+                        query = query.filter(model.megnevezes.ilike(f'%{search_term}%'))
+                    else:
+                        continue  # Skip this model if it doesn't have any of these attributes
 
-    def get_all(self, model, id = None, list=False, exclude_description=False):
-        session = self.get_session()
-        try:
-            query = session.query(model)
-            if exclude_description:
-                query = query.with_entities(*[c for c in model.__table__.columns if c.name not in ['leiras', 'megjegyzes']])
-            return query.all()
-        finally:
-            session.close()
+                    model_results = query.all()
+                    results.extend([    {    "ID": item.id
+                                            ,"Név":     getattr(item, 'nev', None)
+                                                    or  getattr(item, 'cim', None)
+                                                    or  getattr(item, 'megnevezes', None)
+                                            ,"type": model_name}
+                                        for item in model_results
+                                   ])
+                return results
 
-    def get_by_id(self, model, id):
-        session = self.get_session()
-        try:
-            return session.query(model).filter(model.id == id).first()
-        finally:
-            session.close()
-
-
+<<<<<<< HEAD
     def search_in_table(self, model, search_term):
         session = self.get_session()
         try:
@@ -75,6 +68,15 @@ class DatabaseManager:
             elif hasattr(model, 'megnevezes'):
                 query = query.filter(model.megnevezes.ilike(f'%{search_term}%'))
             return query.all()
+=======
+            
+            else:
+                return query.all()
+            
+        except SQLAlchemyError as e:
+            print(f"An error occurred: {str(e)}")
+            return []
+>>>>>>> 2c947ee3cef9c32f9d5e8521b58c72b3216bcce0
         finally:
             session.close()
     def search(self, search_term):

@@ -131,7 +131,7 @@
             <button type="submit">Keresés</button>
         </form>
     </header>
-
+<!-- 
     <nav>
         <ul>
             <li><a href="#home">Főoldal</a></li>
@@ -142,9 +142,35 @@
             <li class="link quick-access-btn" data-model="kategoria"><a href="#kategoriak">Kategóriák</a></li>
             <li><a href="#eloadasBlobTipusok">Fájlt</a></li>
         </ul>
-    </nav>
+    </nav> -->
 
     <div class="container" id="mainContent">
+        <!-- <h2>Üdvözöljük a MartiSuli Adatbázis Kezelőben!</h2>
+        <p>Ez az alkalmazás segít Önnek kezelni a MartiSuli adatbázisát, beleértve a személyeket, médiákat, előadásokat és kategóriákat.</p> -->
+        <div class="quick-access">
+            <button class="btn quick-access-btn" data-model="szemely">Személyek</button>
+            <button class="btn quick-access-btn" data-model="media">Média</button>
+            <button class="btn quick-access-btn" data-model="eloadas">Előadások</button>
+            <button class="btn quick-access-btn" data-model="kategoria">Kategóriák</button>
+        </div>
+        <!-- <div class="statistics">
+            <div class="stat-card">
+                <h3>Személyek</h3>
+                <p id="szemelyCount">Betöltés...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Médiák</h3>
+                <p id="mediaCount">Betöltés...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Előadások</h3>
+                <p id="eloadasCount">Betöltés...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Kategóriák</h3>
+                <p id="kategoriaCount">Betöltés...</p>
+            </div>
+        </div> -->
         <!-- <h2>Üdvözöljük a MartiSuli Adatbázis Kezelőben!</h2>
         <p>Ez az alkalmazás segít Önnek kezelni a MartiSuli adatbázisát, beleértve a személyeket, médiákat, előadásokat és kategóriákat.</p> -->
         <div class="entity-container">
@@ -159,11 +185,11 @@
         <a href="#">Kapcsolat</a>
         <span>Verzió 1.0</span>
     </footer>
-
+</body>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            loadStatistics();
-            setupNavigation();
+            // loadStatistics();
+            // setupNavigation();
             setupQuickAccess();
             setupSearch();
         });
@@ -355,6 +381,8 @@
             });
         }
 
+        function showEntityForm() { document.getElementById('entityForm').style.display = 'block'; }
+
         function showEntityForm() {
             document.getElementById('entityForm').style.display = 'block';
         }
@@ -423,9 +451,28 @@
             }
         }
 
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
+        function capitalizeFirstLetter(string) { return string.charAt(0).toUpperCase() + string.slice(1); }
+
+        // function loadStatistics() {
+        //     ['szemely', 'media', 'eloadas', 'kategoria'].forEach(model => {
+        //         fetch(`/api/${model}/count`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 document.getElementById(`${model}Count`).textContent = data.count;
+        //             });
+        //     });
+        // }
+
+        // function setupNavigation() {
+        //     document.querySelectorAll('nav a').forEach(link => {
+        //         link.addEventListener('click', function(e) {
+        //             e.preventDefault();
+        //             loadView(this.getAttribute('href').substring(1));
+        //         });
+        //     });
+        // }
+
+
     </script>
-</body>
+
 </html>
