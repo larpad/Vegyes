@@ -1,0 +1,139 @@
+import argparse
+import os
+from PyPDF2 import PdfReader, PdfWriter
+from reportlab.lib.pagesizes import A4, A6
+from reportlab.pdfgen import canvas
+from openpyxl import load_workbook
+from io import BytesIO
+from openpyxl.utils.exceptions import InvalidFileException
+from loguru import logger
+import xlrd  # Add this import at the top of the file
+
+def excel_to_pdf(excel_path, zoom_factor):
+    try:
+        # Check if the file is .xls
+        if excel_path.lower().endswith('.xls'):
+            # Use xlrd for .xls files
+            wb = xlrd.open_workbook(excel_path)
+            sheet = wb.sheet_by_index(0)
+            
+            # Create a PDF in memory
+            buffer = BytesIO()
+            c = canvas.Canvas(buffer, pagesize=A4)
+
+            # Calculate the zoom factor
+            zoom = A6[0] / A4[0] * zoom_factor
+
+            # Write Excel content to PDF
+            for row in range(sheet.nrows):
+                for col in range(sheet.ncols):
+                    value = sheet.cell_value(row, col)
+                    if value:
+                        x, y = chr(ord('A') + col), row + 1
+                        c.drawString(float(ord(x) - ord('A')) * 50 * zoom, 
+                                     (sheet.nrows - y) * 20 * zoom, 
+                                     str(value))
+
+            c.save()
+            buffer.seek(0)
+            return buffer
+        else:
+            # Use openpyxl for .xlsx files (existing code)
+            # Load the Excel workbook
+            wb = load_workbook(excel_path)
+            sheet = wb.active
+
+            # Create a PDF in memory
+            buffer = BytesIO()
+            c = canvas.Canvas(buffer, pagesize=A4)
+
+            # Calculate the zoom factor
+            zoom = A6[0] / A4[0] * zoom_factor
+
+            # Write Excel content to PDF
+            for row in sheet.iter_rows():
+                for cell in row:
+                    if cell.value:
+                        x, y = cell.column_letter, cell.row
+                        c.drawString(float(ord(x) - ord('A')) * 50 * zoom, 
+                                     (sheet.max_row - y) * 20 * zoom, 
+                                     str(cell.value))
+
+            c.save()
+            buffer.seek(0)
+            return buffer
+    except InvalidFileException as e:
+        logger.error(f"InvalidFileException: {e}")
+        logger.error("openpyxl does not support the old .xls file format, please use xlrd to read this file, or convert it to the more recent .xlsx file format.")
+        raise
+    except Exception as e:
+        logger.error(f"An error occurred in excel_to_pdf: {e}")
+        raise
+
+def combine_pdfs(input_pdf_path, excel_pdf, output_pdf_path):
+    try:
+        # Read the input PDF
+        reader = PdfReader(input_pdf_path)
+        writer = PdfWriter()
+
+        for page in reader.pages:
+            # Get the dimensions of the page
+            width = float(page.mediabox.width)
+            height = float(page.mediabox.height)
+
+            # Merge the Excel PDF onto the bottom right corner
+            # page.merge_page(PdfReader(excel_pdf).pages[0], 
+            #                 (width - A6[0], 0, width, A6[1]))
+            # writer.add_page(page)
+            writer.add_page(page)
+            writer.add_page(PdfReader(excel_pdf).pages[0])
+
+        # Write the result to a new file
+        with open(output_pdf_path, "wb") as output_file:
+            writer.write(output_file)
+    except Exception as e:
+        logger.error(f"An error occurred in combine_pdfs: {e}")
+        raise
+
+def main(args):
+    try:
+        # Convert Excel to PDF
+        excel_pdf = excel_to_pdf(args.input_excel, args.zoom)
+
+        # Combine PDFs
+        combine_pdfs(args.input_pdf, excel_pdf, args.output_pdf)
+
+        logger.success(f"Combined PDF saved as {args.output_pdf}")
+    except InvalidFileException:
+        logger.error("Conversion failed due to invalid Excel file format.")
+    except Exception as e:
+        logger.error(f"An error occurred in main: {e}")
+
+        import subprocess
+        import sys
+        try:
+            # Open the generated PDF file with the default application
+            output_pdf_path = args.output_pdf
+            logger.info(f"Opening the generated PDF file with the default application: {output_pdf_path}")
+            if sys.platform == "win32":
+                os.startfile(output_pdf_path)
+            elif sys.platform == "darwin":
+                subprocess.call(["open", output_pdf_path])
+            else:
+                subprocess.call(["xdg-open", output_pdf_path])
+        except Exception as e:
+            logger.error(f"An error occurred while opening the PDF file: {e}")
+
+if __name__ == "__main__":
+    try:
+        parser = argparse.ArgumentParser(description="Combine PDF with Excel data")
+        parser.add_argument("--input_pdf", default= r"C:\Users\Apu\Desktop\havi-eloiras_202410_gyor_patzay_p_u_32_34_tarsashaz_32-1-emelet-3-lakas_5fddk844ce.pdf", help="Path to the input PDF file")
+        parser.add_argument("--input_excel", default= r"C:\Users\Apu\Desktop\20241017_visszaigazolas_26612374121.xls", help="Path to the input Excel file")
+        parser.add_argument("--output_pdf", default= r"C:\Users\Apu\Desktop\output.pdf", help="Path for the output PDF file")
+        parser.add_argument("--zoom", type=float, default=1.0, 
+                            help="Zoom factor for Excel content (default: 1.0)")
+        args = parser.parse_args()
+        
+        main(args)
+    except Exception as e:
+        logger.error(f"An error occurred in __main__: {e}")
