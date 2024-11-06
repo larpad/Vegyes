@@ -56,6 +56,19 @@ class DatabaseManager:
                                    ])
                 return results
 
+<<<<<<< HEAD
+    def search_in_table(self, model, search_term):
+        session = self.get_session()
+        try:
+            query = session.query(model)
+            if hasattr(model, 'nev'):
+                query = query.filter(model.nev.ilike(f'%{search_term}%'))
+            elif hasattr(model, 'cim'):
+                query = query.filter(model.cim.ilike(f'%{search_term}%'))
+            elif hasattr(model, 'megnevezes'):
+                query = query.filter(model.megnevezes.ilike(f'%{search_term}%'))
+            return query.all()
+=======
             
             else:
                 return query.all()
@@ -63,8 +76,17 @@ class DatabaseManager:
         except SQLAlchemyError as e:
             print(f"An error occurred: {str(e)}")
             return []
+>>>>>>> 2c947ee3cef9c32f9d5e8521b58c72b3216bcce0
         finally:
             session.close()
+    def search(self, search_term):
+        results = []
+        for model_name in ['szemely', 'media', 'eloadas', 'kategoria']:
+            model = globals().get(model_name.capitalize())
+            model_results = self.search_in_table(model, search_term)
+            results.extend([{**item.to_dict(), "type": model_name} for item in model_results])
+
+        return results
 
 # ------------------------------------------------------------------------------------------
 

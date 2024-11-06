@@ -135,11 +135,11 @@
     <nav>
         <ul>
             <li><a href="#home">Főoldal</a></li>
-            <li><a href="#szemelyek">Személyek</a></li>
-            <li><a href="#mediak">Médiák</a></li>
-            <li><a href="#eloadasok">Előadások</a></li>
+            <li class="link quick-access-btn" data-model="szemely"><a href="#szemelyek">Személyek</a></li>
+            <li class="link quick-access-btn" data-model="media"><a href="#mediak">Médiák</a></li>
+            <li class="link quick-access-btn" data-model="eloadas"><a href="#eloadasok">Előadások</a></li>
             <li><a href="#Beallitasok">Beállítások</a></li>
-            <li><a href="#kategoriak">Kategóriák</a></li>
+            <li class="link quick-access-btn" data-model="kategoria"><a href="#kategoriak">Kategóriák</a></li>
             <li><a href="#eloadasBlobTipusok">Fájlt</a></li>
         </ul>
     </nav> -->
@@ -171,9 +171,12 @@
                 <p id="kategoriaCount">Betöltés...</p>
             </div>
         </div> -->
+        <!-- <h2>Üdvözöljük a MartiSuli Adatbázis Kezelőben!</h2>
+        <p>Ez az alkalmazás segít Önnek kezelni a MartiSuli adatbázisát, beleértve a személyeket, médiákat, előadásokat és kategóriákat.</p> -->
         <div class="entity-container">
             <div id="entityList"></div>
-            <form id="entityForm"></form>
+            <div id="entityUrlap"><form id="entityForm"></form></div>
+            
         </div>
     </div>
 
@@ -191,6 +194,24 @@
             setupSearch();
         });
 
+        function loadStatistics() {
+            ['szemely', 'media', 'eloadas', 'kategoria'].forEach(model => {
+                fetch(`/api/${model}/count`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById(`${model}Count`).textContent = data.count;
+                    });
+            });
+        }
+
+        function setupNavigation() {
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) { 
+                    e.preventDefault();
+                    loadView(this.getAttribute('href').substring(1));
+                });
+            });
+        }
 
         function setupQuickAccess() {
             document.querySelectorAll('.quick-access-btn').forEach(button => {
@@ -210,7 +231,7 @@
                     body: JSON.stringify({ search_term: searchTerm })
                 })
                 .then(response => response.json())
-                .then(displayResults);
+                .then(displayList);
             });
         }
 
@@ -218,18 +239,23 @@
             fetch(`/api/${view}`)
                 .then(response => response.json())
                 .then(data => {
-                    displayResults(data);
+                    displayList(data);
+                    // deleteEntityUrlap();
+//                    displayResults(data);
                     setupEntityForm(view);
                 });
         }
 
-        function displayResults(data) {
-            let content = `<h2>${data.length > 0 ? capitalizeFirstLetter(data[0].type) : 'Eredmények'}</h2>`;
+        function displayList(data) {
+            let content = `<h1>EZ A LISTA</h1><h2>${data.length > 0 ? capitalizeFirstLetter(data[0].type) : 'Eredmények'}</h2>`;
             content += '<button onclick="showEntityForm()">Új hozzáadása</button>';
             if (data.length > 0) {
                 content += '<table><tr>';
                 for (let key in data[0]) {
-                    if (key !== 'type') {
+                    if (key == 'id'){
+                        content += `<th></th>`;
+                    }
+                    else if (key !== 'type') {
                         content += `<th>${key}</th>`;
                     }
                 }
@@ -241,7 +267,45 @@
                             content += `<td>${item[key]}</td>`;
                         }
                     }
+                    // content.tr.onclick = viewEntity(item.type, item.id);
                     content += `<td>
+                        <button onclick="viewEntity('${item.type}', ${item.id})">Megtekintés</button>
+                        <button onclick="editEntity('${item.type}', ${item.id})">Szerkesztés</button>
+                        <button onclick="deleteEntity('${item.type}', ${item.id})">Törlés</button>
+                    </td>`;
+                    content += '</tr>';
+                });
+                content += '</table>';
+            } else {
+                content += '<p>Nincs találat.</p>';
+            }
+            document.getElementById('entityList').innerHTML = content;
+        }
+
+        function displayResults(data) {
+            let content = `<h1>EZ A FORM</h1><h2>${data.length > 0 ? capitalizeFirstLetter(data[0].type) : 'Eredmények'}</h2>`;
+            content += '<button onclick="showEntityForm()">Új hozzáadása</button>';
+            if (data.length > 0) {
+                content += '<h1>EZ A FORM</h1><table><tr>';
+                for (let key in data[0]) {
+                    if (key == 'id'){
+                        content += `<th></th>`;
+                    }
+                    else if (key !== 'type') {
+                        content += `<th>${key}</th>`;
+                    }
+                }
+                content += '<th>Műveletek</th></tr>';
+                data.forEach(item => {
+                    content += '<tr>';
+                    for (let key in item) {
+                        if (key !== 'type') {
+                            content += `<td>${item[key]}</td>`;
+                        }
+                    }
+                    // content.tr.onclick = viewEntity(item.type, item.id);
+                    content += `<td>
+                        <button onclick="viewEntity('${item.type}', ${item.id})">Megtekintés</button>
                         <button onclick="editEntity('${item.type}', ${item.id})">Szerkesztés</button>
                         <button onclick="deleteEntity('${item.type}', ${item.id})">Törlés</button>
                     </td>`;
@@ -277,6 +341,10 @@
             form.appendChild(submitButton);
 
             form.addEventListener('submit', handleFormSubmit);
+        }
+        function deleteEntityUrlap(entityType) {
+            const urlap = document.getElementById('entityUrlap');
+            urlap.innerHTML = '';
         }
 
         function getEntityFields(entityType) {
@@ -315,6 +383,52 @@
 
         function showEntityForm() { document.getElementById('entityForm').style.display = 'block'; }
 
+        function showEntityForm() {
+            document.getElementById('entityForm').style.display = 'block';
+        }
+        function viewEntity(type, id) {
+            fetch(`/api/${type}/${id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const newWindow = window.open('', '_blank');
+                    const table = newWindow.document.createElement('table');
+                    table.style.display = 'block';
+                    table.innerHTML = '';
+
+                    Object.keys(data).forEach(key => {
+                        const row = newWindow.document.createElement('tr');
+                        const cellKey = newWindow.document.createElement('td');
+                        const cellValue = newWindow.document.createElement('td');
+                        cellKey.textContent = key;
+                        cellValue.textContent = data[key];
+                        row.appendChild(cellKey);
+                        row.appendChild(cellValue);
+                        table.appendChild(row);
+                    });
+
+                    newWindow.document.body.innerHTML = '';
+                    newWindow.document.body.appendChild(table);
+                    
+                    bEdit = newWindow.document.createElement('button')
+                    bEdit.textContent = "Módosítás"
+                    bDelete = newWindow.document.createElement('button')
+                    newWindow.document.body.appendChild(bEdit);
+                    newWindow.document.body.appendChild(bDelete);
+
+
+                    // <button onclick="editEntity('${item.type}', ${item.id})">Szerkesztés</button>
+                    //    <button onclick="deleteEntity('${item.type}', ${item.id})">Törlés</button>
+
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
         function editEntity(type, id) {
             fetch(`/api/${type}/${id}`)
                 .then(response => response.json())
