@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "Márti YouTube Letöltő",
+  "version": "1.0",
+  "description": "YouTube videók letöltése egyszerűen",
+  "icons": {
+    "48": "icons/icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "nativeMessaging",
+    "*://*.youtube.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content_scripts/youtube-downloader.js"]
+    }
+  ],
+  "browser_action": {
+    "default_icon": "icons/icon.png",
+    "default_popup": "popup/popup.html"
+  }
+} 
