@@ -1,0 +1,815 @@
+hat-halaszok.txt
+arpad.losonczi@gmail.com
+​
+Ön
+​
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 4.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+
+<score-partwise version="4.0">
+
+  <movement-title>Hát halászok, halászok</movement-title>
+
+  <identification>
+
+    <creator type="composer">Soós Antal (1896)</creator>
+
+    <rights>Nagybajcs / Pusztasomorja /, 1966. B. E.</rights>
+
+  </identification>
+
+  <part-list>
+
+    <score-part id="P1">
+
+      <part-name>Voice</part-name>
+
+    </score-part>
+
+  </part-list>
+
+  <part id="P1">
+
+    <measure number="1">
+
+      <attributes>
+
+        <divisions>2</divisions>
+
+        <key>
+
+          <fifths>0</fifths>
+
+          <mode>major</mode>
+
+        </key>
+
+        <time>
+
+          <beats>2</beats>
+
+          <beat-type>4</beat-type>
+
+        </time>
+
+        <clef>
+
+          <sign>G</sign>
+
+          <line>2</line>
+
+        </clef>
+
+      </attributes>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>Hát</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>ha</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>lá</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>szok,</text>
+
+        </lyric>
+
+      </note>
+
+    </measure>
+
+    <measure number="2">
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>ha</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>lá</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>szok.</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <rest/>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+      </note>
+
+    </measure>
+
+    <measure number="3">
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>Mit</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>fo</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>gott</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>az</text>
+
+        </lyric>
+
+      </note>
+
+    </measure>
+
+    <measure number="4">
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>há</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>ló</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>tok?</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <rest/>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+      </note>
+
+    </measure>
+
+    <measure number="5">
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>Nem</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>fo</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>gott</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>az</text>
+
+        </lyric>
+
+      </note>
+
+    </measure>
+
+    <measure number="6">
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>e</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>gye</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>bet,</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <rest/>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+      </note>
+
+    </measure>
+
+    <measure number="7">
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>2</duration>
+
+        <voice>1</voice>
+
+        <type>quarter</type>
+
+        <lyric>
+
+          <text>Pi</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>ros</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>szár</text>
+
+        </lyric>
+
+      </note>
+
+    </measure>
+
+    <measure number="8">
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>nyú</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>ke</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>sze</text>
+
+        </lyric>
+
+      </note>
+
+      <note>
+
+        <pitch>
+
+          <step>G</step>
+
+          <octave>4</octave>
+
+        </pitch>
+
+        <duration>1</duration>
+
+        <voice>1</voice>
+
+        <type>eighth</type>
+
+        <lyric>
+
+          <text>get.</text>
+
+        </lyric>
+
+      </note>
+
+      <barline location="right">
+
+        <bar-style>light-heavy</bar-style>
+
+      </barline>
+
+    </measure>
+
+  </part>
+
+</score-partwise>
+
+
+Az iPhone-omról küldve

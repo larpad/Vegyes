@@ -1,0 +1,47 @@
+name: Repository Change Notification
+on:
+  # Minden push eseményre figyeljen
+  push:
+    branches:
+      - main
+      - develop
+  
+  # Manuális futtatás lehetősége
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Git változások ellenőrzése
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+
+      # Email küldés minden változásról
+      - name: Send Outlook notification
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.office365.com
+          server_port: 587
+          username: arpad.losonczi@outlook.com
+          password: ${{secrets.OUTLOOK_PASSWORD}}
+          subject: Változás történt a Vegyes repository-ban
+          body: |
+            Változás történt a Vegyes repository-ban.
+            
+            Módosított fájlok:
+            ${{ steps.changed-files.outputs.all_changed_files }}
+            
+            Commit: ${{ github.event.head_commit.message }}
+            Szerző: ${{ github.event.head_commit.author.name }}
+            
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref }}
+            
+            Megtekinthető itt: https://github.com/larpad/Vegyes/commit/${{ github.sha }}
+          to: arpad.losonczi@gmail.com
+          from: arpad.losonczi@outlook.com
