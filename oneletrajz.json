@@ -1,0 +1,204 @@
+{
+  "personal_info": {
+    "name": "Losonczi Árpád",
+    "title": "Okleveles mérnöktanár – mérnök informatikus",
+    "birth_date": "1972-04-08",
+    "address": "9024 Győr, Pátzay Pál út 32.",
+    "marital_status": "Nős, 3 gyermek édesapja",
+    "contact": {
+      "phone": "+36 30 633 9387",
+      "email": "arpad.losonczi@gmail.com",
+      "social": {
+        "facebook": "https://www.facebook.com/arpad.losonczi",
+        "linkedin": "https://www.linkedin.com/in/%C3%A1rp%C3%A1d-losonczi-3727453b/"
+      }
+    }
+  },
+  "skills": [
+    "Python",
+    "MS-SQL",
+    "Oracle PL/SQL",
+    "Oracle Forms",
+    "Oracle Reports",
+    "Oracle Design Editor",
+    "Delphi",
+    "C#",
+    "GitHub",
+    "Docker",
+    "Redmine",
+    "Hálózat",
+    "Operációs rendszerek",
+    "Oktatás",
+    "Támogatás"
+  ],
+  "experience": [
+    {
+      "company": "Integritás Hatóság",
+      "period": "2024.02 - jelenleg",
+      "position": "Programozó (Python, MS SQL programozó)",
+      "tasks": [
+        "Belső fejlesztési feladatok",
+        "Kommunikációs interfészek létrehozása (KKSZB interfészek - NAV, BM, IM)",
+        "Automatikus adatbetöltő kapcsolatok kialakítása (KSH)",
+        "ETL folyamat fejlesztése",
+        "AirFlow program bevezetésének megkezdése",
+        "Adatbázis szerver kialakítása és felügyelete",
+        "AI technológiák hasznosítása adatelemzésben"
+      ],
+      "technologies": ["Python (Pandas, SQLAlchemy, Alembic)", "MS SQL", "GIT", "Docker"]
+    },
+    {
+      "company": "Nemzeti Adó- és Vámhivatal",
+      "period": "2020.01 - 2024.02",
+      "position": "Informatikai referens (PL SQL programozó)",
+      "tasks": [
+        "NAV VIES rendszer fejlesztése",
+        "PL/SQL lekérdezések és tárolt eljárások fejlesztése",
+        "Oracle Forms és Reports fejlesztés",
+        "Kimutatások és lekérdezések készítése",
+        "Kockázat Kezelési Rendszer munkafolyamatának fejlesztése",
+        "Részvétel az EU FPG 024 munkacsoportjában"
+      ],
+      "technologies": ["Oracle PL/SQL Developer", "Oracle Forms", "Oracle Reports", "Oracle Design Editor"]
+    },
+    {
+      "company": "Győri Szakképzési Centrum Bercsényi Miklós Közlekedési és Sportiskola Szakgimnáziuma és Szakközépiskolája",
+      "period": "2018.08 - 2020.01",
+      "position": "Informatika tanár / Rendszergazda",
+      "tasks": [
+        "Középiskolás gyerekek tanítása informatika szakos tanárként",
+        "Fizikai hálózat kiépítése, karbantartása",
+        "Virtuális kiszolgálók (Hyper-V rendszer) bevezetése, üzemeltetése",
+        "Szerver és kliens rendszer létrehozás, üzemeltetése Microsoft platformon",
+        "Eszköznyilvántartás és alkalmazásfejlesztés (C#)",
+        "Felhasználók támogatása"
+      ]
+    },
+    {
+      "company": "Vision – Software Kft.",
+      "period": "2017.01 - 2018.06",
+      "position": "ERP programozó",
+      "tasks": [
+        "Tárgy eszköz nyilvántartás",
+        "Automatikusan küldött levelek",
+        "Excel beolvasás",
+        "Melléklet nyilvántartás / adatbázisban tárolt fájlok kezelése",
+        "Munkaidőnyilvántartás",
+        "Főkönyvi időszakon átnyúló főkönyvi törzs tételek"
+      ],
+      "technologies": ["Delphi XE", "MS-SQL", "SVN"]
+    },
+    {
+      "company": "Nemzeti Adó- és Vámhivatal",
+      "period": "2012.11 - 2017.01",
+      "position": "Információtechnológia kiemelt szakreferens",
+      "tasks": [
+        "Helyszíni Informatikai rendszerfeltárás",
+        "Releváns adózói adatok felkutatása",
+        "Adózói adatokról hitelesített másolat készítése",
+        "Adathordozók, adatfájlok, adatbázisok feltárása és elemzése",
+        "Saját fejlesztésű C# alapú szoftver készítése"
+      ]
+    },
+    {
+      "company": "Városközponti Közoktatási Főigazgatóság, Óvoda és Általános Iskola",
+      "period": "2011.11 - 2012.09",
+      "position": "Rendszergazda",
+      "tasks": [
+        "Windows / Linux alapú számítógéphálózatok üzemeltetése",
+        "Felhasználók eseti oktatása, távsegítség"
+      ]
+    },
+    {
+      "company": "Coop Győr Zrt.",
+      "period": "2005.06 - 2011.10",
+      "position": "Rendszergazda (IT vezető helyettese)",
+      "tasks": [
+        "Központi és bolti rendszerek üzemeltetése",
+        "Fizikai hálózat, bolti IT és kereskedelmi eszközrendszer kiépítése",
+        "Szerver és kliens rendszer üzemeltetése Microsoft platformon",
+        "HelpDesk és egyedi alkalmazások készítése",
+        "Felhasználók kiképzése és támogatása",
+        "Távsegítség nyújtás"
+      ],
+      "technologies": ["C#", "MS-SQL", "SharePoint"]
+    },
+    {
+      "company": "RÁBA – MOTOR Kft.",
+      "period": "1999.07 - 2005.06",
+      "position": "Számítástechnikai rendszerszervező, Rendszergazda",
+      "tasks": [
+        "Szerver és kliens rendszer bevezetése Microsoft platformon",
+        "Felhasználók operatív támogatása"
+      ]
+    },
+    {
+      "company": "RÁBA Magyar Vagon és Gépgyár Rt.",
+      "period": "1998.09 - 1999.06",
+      "position": "Számítástechnikai programozó"
+    },
+    {
+      "company": "RÁBA Magyar Vagon és Gépgyár Rt.",
+      "period": "1989.06 - 1994.08",
+      "position": "Karbantartó csőszerelő"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Mérnöktanár és mérnök – informatikus",
+      "degree": "Okleveles mérnöktanár (mérnök informatikus)",
+      "years": "2007 - 2008"
+    },
+    {
+      "institution": "Mérnöktanár és mérnök – informatikus",
+      "degree": "Programozó szakirány",
+      "years": "1994 - 1998"
+    }
+  ],
+  "certifications": [
+    {
+      "institution": "Netacademia Kft.",
+      "certification": "Windows Server 2003 hálózati infrastruktúra tervezése, kialakítása"
+    },
+    {
+      "institution": "Neo4j",
+      "certification": "Neo4j Fundamentals",
+      "url": "https://graphacademy.neo4j.com/c/4c4c964a-95e1-404e-9c5e-c953c038cac3/"
+    },
+    {
+      "institution": "Netacademia Kft.",
+      "certification": "Windows Server 2003 és Active Directory környezet tervezése, kezelése, karbantartása"
+    },
+    {
+      "institution": "Netacademia Kft.",
+      "certification": "TCP/IP hálózatok biztonsága"
+    },
+    {
+      "institution": "Digital Forensics Kft",
+      "certification": "Szakértői rendszerek digitális bizonyítékok kezeléséhez"
+    },
+    {
+      "institution": "Inforensics Kft",
+      "certification": "ICS-IQ Image MASSter™ Solo-4 Forensic"
+    },
+    {
+      "institution": "Kürt Akadémia Kft.",
+      "certification": "Adatvagyon kiaknázása"
+    },
+    {
+      "institution": "Neo4j",
+      "certification": "Cypher Fundamentals"
+    },
+    {
+      "institution": "Neo4j",
+      "certification": "Graph Data Modeling Fundamentals"
+    }
+  ],
+  "languages": [
+    {
+      "language": "Angol",
+      "level": "B2 középfok"
+    }
+  ],
+  "driving_license": ["B kategória"]
+}

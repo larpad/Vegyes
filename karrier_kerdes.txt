@@ -1,0 +1,71 @@
+Értékeld az önéletrajzom és kérlek válaszolj a következő kérdéskörre, amely számomra meghatározó mert az életemről van szó:
+- A válaszaid legyenek részletesek és indokoltak, amennyiben kifelyezhető, akkor 10-es skálán és/ vagy %-osan is értékeld az adott információt!
+- A végén kérlek készíts az addig összegyűjtött dolgok alapján rólam egy személyiségelemzést és egy SWOT Analízist!
+
+A kérdéskör:
+
+Mint a fentiekben látod én egy 53 éves SQL-ben relative erős adatmérnök vagyok aki szeretne egy megfelő karrierutat biztosítani magának várhatóan 70 éves koromban történő nyugdíjba vonulásomig, úgy hogy lehetőség szerint kimaximalizáljam a lehető legnagyobb jövedelemet és a lehető legtöbb szabadságot (annak minden értelmében) a munkám során!
+Félek a jövőtől, félek hogy a feljődő AI elveszi a munkám és/vagy kisebb jövedelmi viszonyok közé kényszerít, félek hogy. fiatalok lemosnak a pályáról!
+
+Szeretnék jobb álást, de Győri vagyok ahol kevés a munkalehetőség van családom van, 3 gyerekem van akik egyetemisták (1 még csak lesz).
+
+Táv munkába gondolkodom, Vagy max heti két nap bejárás Budapestre vagy Bécsbe, esetleg Pozsonyba. Vagy Esetleg az Európai Unió szervezetébe. Eszembe jutott még a Microsoft, Google, Oracle is mint munkahely, bár kíváncsi lennék a tanácsaid alapján mennyi esélyem van!
+
+Tudm, hogy sokat kell még tanulnom az alábbi ismeretkörökre gondoltam, hogy foglalkozni kéne, de nem tudom, hogy bből mit vegyek ki, és a többi  milyen arányban tanuljam! 
+Kérelk, amennyiben úgy látod hogy van olyan terület amit esetleg kihagytam, írd hozzá!
+
+Kérlek építd fel a Tanulásom szükséges menetrendjét, határozd meg a területeket, részterületeket, és figyelemmel az előrehaladás folyamatára napi szinten hogyan érdemes elosztani a tanulandókat!
+Ebben kérem a segítséged, majd Karrier tanácsod a fentiek szerinti elkövetkező időkre!
+
+Területek:
+Forntend:
+- Javascript:
+-- Ha esetleg kell tanulni akkor melyik rendszerét  ( Pure / Angular / React /Vue )
+
+Nyelvek nyilván könyvtáraikkal:
+- Python / Rust / C / C++ / c# 
+
+Kiemelten Fontos rendszerek könyvtárak:
+- AirFLow
+- Apache Kafka
+- Apache Nifi
+- Apache HOP
+
+Nagyvállalati szolgáltatások
+- AZURE
+-- Szabad hozzáférésem van a Microsoft Learning-hez
+- AWS
+- Google szolgáltatás
+- Oracle szolgáltatás
+
+
+Architect ismeretek:
+- TOGAF
+- Archimate
+- DAMA/DmBok
+
+Etikus Hackeri ismeretek (annak minden területével)
+- Ha szükségem van rá, akkor mi a javasolt specializáció?
+- Természetesen ez esetben érdekelnek a Vizsgák is, pl CEH, vagy OWS...., stb
+
+Nyelvutdás növelése:
+- Angol C2 + szaknyelv
+- Német(?)
+- Francia(?)
+- Arab(?)
+- Kínai(?)
+- Orosz(?)
+
+Gondoltam, hogy esetleg elvégzem az alábbi képzések mindegyikét vagy valamelyikét, de nem tudom, hogy szükségem van-e rá igazán: 
+
+- Elektronikus információbiztonsági vezető szakirányú továbbképzési szak
+https://kti.uni-nke.hu/szakiranyu-tovabbkepzesek/szakiranyu-tovabbkepzesi-szakok/elektronikus-informaciobiztonsagi-vezeto/altalanos-informaciok
+
+- Európai uniós adatvédelmi szaktanácsadó szakirányú továbbképzési szak
+https://kti.uni-nke.hu/szakiranyu-tovabbkepzesek/szakiranyu-tovabbkepzesi-szakok/europai-unios-adatvedelmi-szaktanacsado/altalanos-informaciok
+
+- Amennyiben szükségesnek látod egészítsd ki a tanulandó ismeretkört!
+
+Szerinted 53 évesen széleskörű IT tudásaal de nem szakspecifikus tudással mennyire értelmes karrier cél belekezdeni it security szakmába beleértve a betanulást is mindezt magyaroszágon? Mekkora fizetést érhetek el 55 évesen
+
+Ha jelenleg python progamozó vagyok adatmérnöki területen 1 éve akkor ez a tény hogy árnyalja az előző válaszodat?
