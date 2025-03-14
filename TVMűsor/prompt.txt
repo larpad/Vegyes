@@ -1,0 +1,38 @@
+Segíts nekem létrehozni egy Flask alapú TV műsor kereső alkalmazást. Az alkalmazásnak a következő követelményeknek kell megfelelnie:
+
+1. Technikai követelmények:
+- Flask web framework használata
+- Python 3.8+ kompatibilitás
+- Reszponzív felhasználói felület (Bootstrap vagy hasonló CSS framework használatával)
+- REST API integrációs képesség
+- Hibakezelés és logolás
+
+2. Funkcionális követelmények:
+- Egyszerű, letisztult keresőfelület szövegbeviteli mezővel
+- Keresés gomb a lekérdezés indításához
+- A keresés támogassa:
+  * Filmcímek keresését
+  * TV műsorok címeit
+  * Színészek, rendezők neveit
+- Az eredmények tartalmazzák:
+  * A műsor/film címét
+  * Vetítési időpontot
+  * TV csatorna nevét
+  * Rövid leírást (ha elérhető)
+
+3. Javasolt API szolgáltatók:
+- Port.hu API (https://port.hu/api)
+  * Széles körű magyar nyelvű műsorinformációk
+  * TV műsorok és mozik adatai
+  * Részletes keresési lehetőségek
+- MTVA API (ha elérhető)
+  * Közszolgálati csatornák műsorai
+- TV2 Csoport API (ha elérhető)
+  * Kereskedelmi csatornák műsorai
+
+4. Megjelenítendő TV csatornák:
+- Közszolgálati csatornák (M1, M2, M3, M4, M5, Duna, Duna World)
+- Kereskedelmi csatornák (TV2, RTL, ATV, Hír TV, stb.)
+- Tematikus csatornák (Film+, Mozi+, Story4, stb.)
+
+5. Keresési eredmények formátuma:
